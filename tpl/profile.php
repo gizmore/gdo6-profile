@@ -1,10 +1,10 @@
 <?php
 use GDO\Profile\Module_Profile;
 use GDO\UI\GDT_Back;
-use GDO\User\User;
-use GDO\User\UserSetting;
+use GDO\User\GDO_User;
+use GDO\User\GDO_UserSetting;
 
-$user instanceof User;
+$user instanceof GDO_User;
 // $profile instanceof GWF_Profile;
 $module = Module_Profile::instance();
 ?>
@@ -19,7 +19,7 @@ $module = Module_Profile::instance();
     <?php foreach ($module->getUserSettings() as $gdoType) : ?>
     <div>
       <label><?= $gdoType->label; ?></label>
-      <i><?= UserSetting::userGet($user, $gdoType->name)->getValue(); ?></i>
+      <i><?= GDO_UserSetting::userGet($user, $gdoType->name)->getValue(); ?></i>
     </div>
     <?php endforeach; ?>
   </md-card-content>
