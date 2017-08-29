@@ -1,9 +1,9 @@
 <?php
 namespace GDO\Profile;
 
-use GDO\Type\GDO_String;
+use GDO\Type\GDT_String;
 
-class GDO_ICQ extends GDO_String
+class GDT_ICQ extends GDT_String
 {
 	public function __construct()
 	{
