@@ -13,7 +13,7 @@ final class View extends Method
 		return $this->templateProfile(Common::getRequestString('id', GDO_User::current()->getID()));
 	}
 	
-	public function templateProfile(string $userid)
+	public function templateProfile($userid)
 	{
 		$profileGDO_User = GDO_User::table()->find($userid);
 		return $this->templatePHP('profile.php', ['user' => $profileUser]);

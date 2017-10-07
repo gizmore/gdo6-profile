@@ -4,8 +4,8 @@ namespace GDO\Profile;
 use GDO\Address\GDT_Phone;
 use GDO\Core\GDO_Module;
 use GDO\Net\GDT_Url;
-use GDO\Type\GDT_Int;
-use GDO\Type\GDT_Message;
+use GDO\DB\GDT_Int;
+use GDO\UI\GDT_Message;
 use GDO\UI\GDT_Link;
 
 final class Module_Profile extends GDO_Module

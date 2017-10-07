@@ -1,7 +1,7 @@
 <?php
 namespace GDO\Profile;
 
-use GDO\Type\GDT_String;
+use GDO\DB\GDT_String;
 
 class GDT_ICQ extends GDT_String
 {
