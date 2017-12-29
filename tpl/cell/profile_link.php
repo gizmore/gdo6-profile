@@ -6,6 +6,6 @@ $hrefProfile = href('Profile', 'View', "&id={$user->getID()}");
 <a title="<?=$user->displayNameLabel();?>" href="<?=$hrefProfile?>">
   <?=GDO_Avatar::renderAvatar($user)?>
 <?php if ($field->withNickname) : ?>
-  <?=$user->displayName()?>
+  <?=$user->displayNameLabel()?>
 <?php endif; ?>
 </a>

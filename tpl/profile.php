@@ -6,22 +6,26 @@ use GDO\User\GDO_UserSetting;
 use GDO\UI\GDT_Card;
 use GDO\UI\GDT_HTML;
 use GDO\UI\WithHTML;
+use GDO\Date\Time;
 $user instanceof GDO_User;
 $module = Module_Profile::instance();
 $card = GDT_Card::make('profile');
 
 $title = '';
-$title .= t('card_title_profile', [$user->displayName()]);
-$title .= t('card_subtitle_profile', [tt($user->getRegisterDate())]);
+$title .= t('card_title_profile', [$user->displayNameLabel()]);
+$title .= t('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]);
 $card->title($title);
 
 $content = '';
 foreach ($module->getUserSettings() as $gdt)
 {
-	$content .= '<div>';
-	$content .= sprintf('<label>%s</label>', $gdt->label);
-	$content .= sprintf('<i>%s</i>', GDO_UserSetting::userGet($user, $gdt->name)->getValue());
-	$content .= '</div>';
+	if ($value = GDO_UserSetting::userGet($user, $gdt->name)->getValue())
+	{
+		$content .= '<div>';
+		$content .= sprintf('<label>%s</label>', $gdt->label);
+		$content .= sprintf('<i>%s</i>', $value);
+		$content .= '</div>';
+	}
 }
 $card->addField(GDT_HTML::withHTML($content));
 
