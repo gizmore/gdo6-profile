@@ -15,7 +15,7 @@ final class View extends Method
 	
 	public function templateProfile($userid)
 	{
-		$profileGDO_User = GDO_User::table()->find($userid);
+		$profileUser = GDO_User::table()->find($userid);
 		return $this->templatePHP('profile.php', ['user' => $profileUser]);
 	}
 	

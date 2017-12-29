@@ -3,27 +3,28 @@ use GDO\Profile\Module_Profile;
 use GDO\UI\GDT_Back;
 use GDO\User\GDO_User;
 use GDO\User\GDO_UserSetting;
-
+use GDO\UI\GDT_Card;
+use GDO\UI\GDT_HTML;
+use GDO\UI\WithHTML;
 $user instanceof GDO_User;
-// $profile instanceof GWF_Profile;
 $module = Module_Profile::instance();
-?>
-<md-card>
-  <md-card-title>
-    <md-card-title-text>
-      <span class="md-headline"><?= t('card_title_profile', [$user->displayName()]); ?></span>
-      <span class="md-subhead"><?= t('card_subtitle_profile', [tt($user->getRegisterDate())]); ?></span>
-    </md-card-title-text>
-  </md-card-title>
-  <md-card-content layout="column" layout-align="space-between">
-    <?php foreach ($module->getUserSettings() as $gdoType) : ?>
-    <div>
-      <label><?= $gdoType->label; ?></label>
-      <i><?= GDO_UserSetting::userGet($user, $gdoType->name)->getValue(); ?></i>
-    </div>
-    <?php endforeach; ?>
-  </md-card-content>
-  <md-card-actions layout="row" layout-align="end center">
-    <?= GDT_Back::make()->renderCell(); ?>
-  </md-card-actions>
-</md-card>
+$card = GDT_Card::make('profile');
+
+$title = '';
+$title .= t('card_title_profile', [$user->displayName()]);
+$title .= t('card_subtitle_profile', [tt($user->getRegisterDate())]);
+$card->title($title);
+
+$content = '';
+foreach ($module->getUserSettings() as $gdt)
+{
+	$content .= '<div>';
+	$content .= sprintf('<label>%s</label>', $gdt->label);
+	$content .= sprintf('<i>%s</i>', GDO_UserSetting::userGet($user, $gdt->name)->getValue());
+	$content .= '</div>';
+}
+$card->addField(GDT_HTML::withHTML($content));
+
+$card->actions()->addField(GDT_Back::make());
+
+echo $card->render();
