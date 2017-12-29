@@ -12,6 +12,8 @@ final class Module_Profile extends GDO_Module
 {
 	public $module_priority = 45;
 	
+	public function onLoadLanguage() { return $this->loadLanguage('lang/profile'); }
+	
 	public function getConfig()
 	{
 		return array(
