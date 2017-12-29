@@ -7,13 +7,18 @@ use GDO\UI\GDT_Card;
 use GDO\UI\GDT_HTML;
 use GDO\UI\WithHTML;
 use GDO\Date\Time;
+use GDO\Avatar\GDO_Avatar;
 $user instanceof GDO_User;
 $module = Module_Profile::instance();
 $card = GDT_Card::make('profile');
 
-$title = '';
-$title .= t('card_title_profile', [$user->displayNameLabel()]);
-$title .= t('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]);
+$avatar = GDO_Avatar::renderAvatar($user);
+$username = t('card_title_profile', [$user->displayNameLabel()]);
+$since = t('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]);
+$title = <<<EOT
+{$avatar}
+<div class="ib">{$username}<br/>{$since}</div>
+EOT;
 $card->title($title);
 
 $content = '';
@@ -21,9 +26,9 @@ foreach ($module->getUserSettings() as $gdt)
 {
 	if ($value = GDO_UserSetting::userGet($user, $gdt->name)->getValue())
 	{
-		$content .= '<div>';
+		$content .= '<div class="profile-row">';
 		$content .= sprintf('<label>%s</label>', $gdt->label);
-		$content .= sprintf('<i>%s</i>', $value);
+		$content .= sprintf('<span>%s</span>', $value);
 		$content .= '</div>';
 	}
 }
