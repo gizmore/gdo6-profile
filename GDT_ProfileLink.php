@@ -28,7 +28,7 @@ final class GDT_ProfileLink extends GDT_Link
 		return $this->forUser;
 	}
 	
-	public function render()
+	public function renderCell()
 	{
 		return GDT_Template::php('Profile', 'cell/profile_link.php', ['field'=>$this]);
 	}
