@@ -38,4 +38,9 @@ final class Module_Profile extends GDO_Module
 			GDT_Message::make('profile_about')->label('profile_about'),
 		);
 	}
+	
+	public function onIncludeScripts()
+	{
+		$this->addCSS('css/profile.css');
+	}
 }
