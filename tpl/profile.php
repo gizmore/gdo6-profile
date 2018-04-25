@@ -9,6 +9,7 @@ use GDO\UI\WithHTML;
 use GDO\Date\Time;
 use GDO\Avatar\GDO_Avatar;
 use GDO\UI\GDT_Link;
+use GDO\Core\GDT_Hook;
 $user instanceof GDO_User;
 $module = Module_Profile::instance();
 $card = GDT_Card::make('profile');
@@ -35,12 +36,8 @@ foreach ($module->getUserSettings() as $gdt)
 }
 $card->addField(GDT_HTML::withHTML($content));
 
-if (module_enabled('PM'))
-{
-	$linkPM = GDT_Link::make()->href(href('PM', 'Write', '&username='.$user->getName()))->label(t('link_write_pm'));
-	$card->actions()->addField($linkPM);
-}
-
 $card->actions()->addField(GDT_Back::make());
+
+GDT_Hook::call('ProfileCard', $user, $card);
 
 echo $card->render();
