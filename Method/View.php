@@ -5,17 +5,32 @@ use GDO\Core\Method;
 use GDO\User\GDO_User;
 use GDO\User\GDO_UserSetting;
 use GDO\Util\Common;
+use GDO\Profile\Module_Profile;
+use GDO\DB\GDT_UInt;
 
 final class View extends Method
 {
+	public function gdoParameters()
+	{
+		return array(
+			GDT_UInt::make('id')->initial(GDO_User::current()->getID()),
+		);
+	}
+	
 	public function execute()
 	{
-		return $this->templateProfile(Common::getRequestString('id', GDO_User::current()->getID()));
+		return $this->templateProfile($this->gdoParameterVar('id'));
 	}
 	
 	public function templateProfile($userid)
 	{
 		$profileUser = GDO_User::table()->find($userid);
+		
+		if (!Module_Profile::instance()->canViewProfile(GDO_User::current(), $profileUser))
+		{
+			return $this->error('err_not_allowed');
+		}
+		
 		return $this->templatePHP('profile.php', ['user' => $profileUser]);
 	}
 	
