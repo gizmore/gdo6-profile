@@ -13,6 +13,8 @@ use GDO\User\GDO_User;
 use GDO\User\GDO_UserSetting;
 use GDO\Friends\GDO_Friendship;
 use GDO\Core\GDT_Hook;
+use GDO\Friends\GDT_ACL;
+use GDO\Form\GDT_Select;
 
 final class Module_Profile extends GDO_Module
 {
@@ -34,19 +36,27 @@ final class Module_Profile extends GDO_Module
 		);
 	}
 	
+	public $extUserSettings;
 	public function getUserSettings()
 	{
-		return array(
-			GDT_Enum::make('profile_visible')->enumValues('all', 'members', 'friends', 'none')->initial('all')->notNull(),
-			GDT_ICQ::make('profile_icq'),
-			GDT_String::make('profile_skype')->label('skype_name'),
-			GDT_Phone::make('profile_phone'),
-			GDT_Phone::make('profile_wapp'),
-			GDT_Url::make('profile_website')->reachable()->label('profile_website'),
-			GDT_Message::make('profile_about')->label('profile_about'),
-// 			GDT_EyeColor::make('profile_eyes')->label('eye_color'),
-// 			GDT_SexualOrientation::make('profile_sex_pref'),
-		);
+		$this->extUserSettings = [];
+		# Fill via Modules
+		GDT_Hook::call('ProfileSettings');
+		
+		$settings = $this->extUserSettings;
+		$fields = [];
+		foreach ($settings as $gdt)
+		{
+			$fields[] = $gdt->name;
+		}
+		
+		array_unshift($settings, GDT_Select::make('profile_visible_none')->choices($fields)->multiple());
+		array_unshift($settings, GDT_Select::make('profile_visible_friends')->choices($fields)->multiple());
+		array_unshift($settings, GDT_Select::make('profile_visible_member')->choices($fields)->multiple());
+		array_unshift($settings, GDT_Select::make('profile_visible_all')->choices($fields)->multiple());
+		array_unshift($settings, GDT_ACL::make('profile_visible')->initial('acl_all'));
+		
+		return $settings;
 	}
 	
 	public function onIncludeScripts()
@@ -75,6 +85,14 @@ final class Module_Profile extends GDO_Module
 		case 'none': return false;
 		}
 		return false;
+	}
+	
+	#############
+	### Hooks ###
+	#############
+	public function hookAccountChanged(GDO_User $user)
+	{
+		
 	}
 		
 }
