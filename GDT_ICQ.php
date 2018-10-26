@@ -5,11 +5,9 @@ use GDO\DB\GDT_String;
 
 class GDT_ICQ extends GDT_String
 {
-	public function __construct()
-	{
-		$this->min = 5;
-		$this->max = 9;
-		$this->pattern = "/^[0-9]+$/";
-		$this->encoding = self::ASCII;
-	}
+	public $pattern = "/^[0-9]+$/";
+	public $encoding = self::ASCII;
+	public $caseSensitive = true;
+	public $min = 5;
+	public $max = 9;
 }

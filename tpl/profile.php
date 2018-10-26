@@ -8,7 +8,7 @@ use GDO\UI\GDT_HTML;
 use GDO\Date\Time;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Core\GDT_Hook;
-$user instanceof GDO_User;
+$me = $user instanceof GDO_User;
 $module = Module_Profile::instance();
 $card = GDT_Card::make('profile');
 

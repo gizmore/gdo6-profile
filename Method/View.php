@@ -4,7 +4,6 @@ namespace GDO\Profile\Method;
 use GDO\Core\Method;
 use GDO\User\GDO_User;
 use GDO\User\GDO_UserSetting;
-use GDO\Util\Common;
 use GDO\Profile\Module_Profile;
 use GDO\DB\GDT_UInt;
 
@@ -34,6 +33,10 @@ final class View extends Method
 		return $this->templatePHP('profile.php', ['user' => $profileUser]);
 	}
 	
+	/**
+	 * Count number of profile views.
+	 * @param GDO_User $profileUser
+	 */
 	public function onProfileView(GDO_User $profileUser)
 	{
 		$user = GDO_User::current();
@@ -41,9 +44,9 @@ final class View extends Method
 		# Increase views
 		if (!$user->tempGet("profileview_$userid"))
 		{
-			$views = GDO_UserSetting::userInc($profileUser, 'profile_views');
+			GDO_UserSetting::userInc($profileUser, 'profile_views');
 			$user->tempSet("profileview_$userid", 1);
 		}
-		
 	}
+
 }
