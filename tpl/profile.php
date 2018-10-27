@@ -27,7 +27,7 @@ foreach ($module->getUserSettings() as $gdt)
 	if ($value = GDO_UserSetting::userGet($user, $gdt->name)->getValue())
 	{
 		$content .= '<div class="profile-row">';
-		$content .= sprintf('<label>%s</label>', $gdt->label);
+		$content .= sprintf('<label>%s</label>', $gdt->displayLabel());
 		$content .= sprintf('<span>%s</span>', $value);
 		$content .= '</div>';
 	}

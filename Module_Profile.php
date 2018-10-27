@@ -32,9 +32,10 @@ final class Module_Profile extends GDO_Module
 	
 	public function getUserConfig()
 	{
+		$uid = GDO_User::current()->getID();
 		return array(
 			GDT_Int::make('profile_views')->unsigned()->initial('0'),
-			GDT_Link::make('profile_view')->href(href('Profile', 'View'))->label('link_own_profile'),
+			GDT_Link::make('profile_view')->href(href('Profile', 'View', "&id={$uid}"))->label('link_own_profile'),
 		);
 	}
 	

@@ -23,6 +23,7 @@ final class View extends Method
 	
 	public function templateProfile($userid)
 	{
+		var_dump($_REQUEST);
 		$profileUser = GDO_User::table()->find($userid);
 		
 		if (!Module_Profile::instance()->canViewProfile(GDO_User::current(), $profileUser))
