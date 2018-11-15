@@ -20,5 +20,6 @@ final class GDT_EyeColor extends GDT_Enum
 	{
 		$this->label('eye_color');
 		$this->enumValues(...self::$COLORS);
+		$this->emptyLabel(t('not_specified'));
 	}
 }
