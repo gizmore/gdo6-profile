@@ -37,6 +37,6 @@ $card->addField(GDT_HTML::withHTML($content));
 
 $card->actions()->addField(GDT_Back::make());
 
-GDT_Hook::call('ProfileCard', $user, $card);
+GDT_Hook::callHook('ProfileCard', $user, $card);
 
 echo $card->render();

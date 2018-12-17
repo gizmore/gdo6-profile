@@ -45,7 +45,7 @@ final class Module_Profile extends GDO_Module
 	public function extUserSettings()
 	{
 		$this->extUserSettings = [];
-		GDT_Hook::call('ProfileSettings');
+		GDT_Hook::callHook('ProfileSettings');
 		return $this->extUserSettings;
 	}
 	public $extUserSettings;
