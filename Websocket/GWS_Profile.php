@@ -32,7 +32,8 @@ final class GWS_Profile extends GWS_Command
 
 		# First is overall acl setting
 		$global = $this->getSettingACL($user, $settings, $i++);
-		$globalAccess = $global->hasAccess($me, $user);
+		$reason = '';
+		$globalAccess = $global->hasAccess($me, $user, $reason);
 		$profile->setVar($global->name, $global->getVar());
 		
 		# Now come pairs (two gdt per setting) of "gdt,gdt_acl"
@@ -44,7 +45,7 @@ final class GWS_Profile extends GWS_Command
 			
 			# setting value
 			$gdt = $this->getSettingGDT($user, $settings, $i);
-			$var = $globalAccess && $acl->hasAccess($me, $user) ? # with access check 
+			$var = $globalAccess && $acl->hasAccess($me, $user, $reason) ? # with access check 
 				$gdt->var : $gdt->initial;
 			$profile->setVar($settings[$i]->name, $var);
 			

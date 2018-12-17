@@ -10,6 +10,7 @@ use GDO\Friends\GDO_Friendship;
 use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
 use GDO\Core\GDT;
+use GDO\Core\GDOException;
 
 final class Module_Profile extends GDO_Module
 {
@@ -76,24 +77,13 @@ final class Module_Profile extends GDO_Module
 	##############
 	### Helper ###
 	##############
-	public function canViewProfile(GDO_User $user, GDO_User $target)
+	public function canViewProfile(GDO_User $user, GDO_User $target, &$reason)
 	{
-		# Self is fine
-		if ($user === $target)
-		{
-			return true;
-		}
-		
-		# Check setting
-		$visibility = GDO_UserSetting::userGet($target, 'profile_visible')->getVar();
-		switch ($visibility)
-		{
-		case 'all': return true;
-		case 'members': return $user->isMember();
-		case 'friends': return module_enabled('Friends') ? GDO_Friendship::areRelated($user, $target) : false;
-		case 'none': return false;
-		}
-		return false;
+		/**
+		 * @var \GDO\Friends\GDT_ACL $acl
+		 */
+		$acl = GDO_UserSetting::userGet($target, 'profile_visible');
+		return $acl->hasAccess($user, $target, $reason);
 	}
 	
 	public function canViewSetting(GDO_User $user, GDO_User $target, $settingName)

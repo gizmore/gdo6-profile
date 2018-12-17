@@ -23,12 +23,12 @@ final class View extends Method
 	
 	public function templateProfile($userid)
 	{
-		var_dump($_REQUEST);
 		$profileUser = GDO_User::table()->find($userid);
 		
-		if (!Module_Profile::instance()->canViewProfile(GDO_User::current(), $profileUser))
+		$reason = '';
+		if (!Module_Profile::instance()->canViewProfile(GDO_User::current(), $profileUser, $reason))
 		{
-			return $this->error('err_not_allowed');
+			return $this->error('err_not_allowed', [$reason]);
 		}
 		
 		return $this->templatePHP('profile.php', ['user' => $profileUser]);
