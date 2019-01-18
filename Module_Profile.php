@@ -6,11 +6,9 @@ use GDO\DB\GDT_Int;
 use GDO\UI\GDT_Link;
 use GDO\User\GDO_User;
 use GDO\User\GDO_UserSetting;
-use GDO\Friends\GDO_Friendship;
 use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
 use GDO\Core\GDT;
-use GDO\Core\GDOException;
 
 final class Module_Profile extends GDO_Module
 {
