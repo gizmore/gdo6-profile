@@ -11,6 +11,7 @@ use GDO\User\GDO_UserSetting;
 use GDO\Core\GDT;
 use GDO\Profile\Method\View;
 use GDO\Friends\GDO_Friendship;
+use GDO\Profile\Module_Profile;
 
 /**
  * Profile view.
@@ -36,21 +37,33 @@ final class GWS_Profile extends GWS_Command
 		$globalAccess = $global->hasAccess($me, $user, $reason);
 		$profile->setVar($global->name, $global->getVar());
 		
+		$singleACL = Module_Profile::instance()->cfgSingleACL();
+		
 		# Now come pairs (two gdt per setting) of "gdt,gdt_acl"
 		while ($i < count($settings))
 		{
-			# ACL setting
-			$acl = $this->getSettingACL($user, $settings, $i+1);
-			$profile->setVar($acl->name, $acl->getVar());
+			if (!$singleACL)
+			{
+				# ACL setting
+				$acl = $this->getSettingACL($user, $settings, $i+1);
+				$profile->setVar($acl->name, $acl->getVar());
+			}
 			
 			# setting value
 			$gdt = $this->getSettingGDT($user, $settings, $i);
-			$var = $globalAccess && $acl->hasAccess($me, $user, $reason) ? # with access check 
-				$gdt->var : $gdt->initial;
+			$var = $gdt->initial;
+			if ($globalAccess)
+			{
+				if  ($singleACL || $acl->hasAccess($me, $user, $reason))
+				{
+					$var = $gdt->var;
+				}
+			}
+
 			$profile->setVar($settings[$i]->name, $var);
 			
 			# Next pair
-			$i += 2;
+			$i += $singleACL ? 1 : 2;
 		}
 		
 		if ($globalAccess)

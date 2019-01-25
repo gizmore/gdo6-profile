@@ -9,6 +9,7 @@ use GDO\User\GDO_UserSetting;
 use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
 use GDO\Core\GDT;
+use GDO\DB\GDT_Checkbox;
 
 final class Module_Profile extends GDO_Module
 {
@@ -26,8 +27,10 @@ final class Module_Profile extends GDO_Module
 	public function getConfig()
 	{
 		return array(
+			GDT_Checkbox::make('profile_single_acl')->initial('0'),
 		);
 	}
+	public function cfgSingleACL() { return $this->getConfigValue('profile_single_acl'); }
 	
 	public function getUserConfig()
 	{
@@ -53,10 +56,14 @@ final class Module_Profile extends GDO_Module
 	{
 		$settings = [];
 		$ext = $this->extUserSettings();
+		$singleACL = $this->cfgSingleACL();
 		foreach ($ext as $gdt)
 		{
 			$settings[] = $gdt;
-			$settings[] = GDT_ACL::make("profile_{$gdt->name}_visible")->initial('acl_noone');
+			if (!$singleACL)
+			{
+				$settings[] = GDT_ACL::make("profile_{$gdt->name}_visible")->initial('acl_noone');
+			}
 		}
 		return $settings;
 	}
