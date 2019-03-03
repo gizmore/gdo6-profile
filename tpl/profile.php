@@ -8,6 +8,8 @@ use GDO\UI\GDT_HTML;
 use GDO\Date\Time;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Core\GDT_Hook;
+use GDO\Friends\GDT_ACL;
+use GDO\Date\GDT_Age;
 $me = $user;
 $me instanceof GDO_User;
 $module = Module_Profile::instance();
@@ -23,14 +25,39 @@ EOT;
 $card->title($title);
 
 $content = '';
-foreach ($module->getUserSettings() as $gdt)
+
+$fields = array(
+	$me->gdoColumn('user_gender'),
+	$me->gdoColumn('user_country'),
+	$me->gdoColumn('user_real_name'),
+);
+
+foreach ($fields as $gdt)
 {
-	if ($value = GDO_UserSetting::userGet($user, $gdt->name)->getValue())
+	if ($gdt->hasVar())
 	{
 		$content .= '<div class="profile-row">';
-		$content .= sprintf('<label>%s</label>', $gdt->displayLabel());
-		$content .= sprintf('<span>%s</span>', $value);
+		$content .= sprintf('<label>%s</label>:&nbsp;', $gdt->displayLabel());
+		$content .= sprintf('<span>%s</span>', $gdt->renderCell());
 		$content .= '</div>';
+	}
+}
+
+foreach ($module->getUserSettings() as $gdt)
+{
+	if ($value = GDO_UserSetting::userGet($user, $gdt->name))
+	{
+		if ($value instanceof GDT_ACL)
+		{
+			continue;
+		}
+		if ($value->hasVar())
+		{
+			$content .= '<div class="profile-row">';
+			$content .= sprintf('<label>%s</label>:&nbsp;', $value->displayLabel());
+			$content .= sprintf('<span>%s</span>', $value->renderCell());
+			$content .= '</div>';
+		}
 	}
 }
 $card->addField(GDT_HTML::withHTML($content));

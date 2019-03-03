@@ -7,4 +7,11 @@ return array(
 'profile_wapp' => 'Whatsapp',
 'profile_website' => 'Website',
 'profile_about' => 'About',
+	
+### Sexo
+'sexual_orientation' => 'Sexual Orientation',
+'enum_men' => 'men',
+'enum_women' => 'women',
+'enum_both' => 'both',
 );
+
