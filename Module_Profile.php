@@ -27,7 +27,7 @@ final class Module_Profile extends GDO_Module
 	public function getConfig()
 	{
 		return array(
-			GDT_Checkbox::make('profile_single_acl')->initial('0'),
+			GDT_Checkbox::make('profile_single_acl')->initial('1'),
 		);
 	}
 	public function cfgSingleACL() { return $this->getConfigValue('profile_single_acl'); }
