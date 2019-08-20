@@ -13,10 +13,17 @@ final class GDT_ProfileLink extends GDT_Link
 		return $this;
 	}
 	
-	public $withNickname;
+	public $withNickname = false;
 	public function withNickname($withNickname=true)
 	{
 		$this->withNickname = $withNickname;
+		return $this;
+	}
+	
+	public $withAvatar = true;
+	public function withAvatar($withAvatar=true)
+	{
+		$this->withAvatar = $withAvatar;
 		return $this;
 	}
 	

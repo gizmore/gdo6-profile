@@ -15,7 +15,8 @@ $me instanceof GDO_User;
 $module = Module_Profile::instance();
 $card = GDT_Card::make('profile');
 
-$avatar = GDO_Avatar::renderAvatar($user);
+
+$avatar = module_enabled('Avatar') ? GDO_Avatar::renderAvatar($user) : '';
 $username = t('card_title_profile', [$user->displayNameLabel()]);
 $since = t('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]);
 $title = <<<EOT
