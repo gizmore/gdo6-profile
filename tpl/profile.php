@@ -1,7 +1,6 @@
 <?php
 use GDO\Profile\Module_Profile;
 use GDO\UI\GDT_Back;
-use GDO\User\GDO_User;
 use GDO\User\GDO_UserSetting;
 use GDO\UI\GDT_Card;
 use GDO\UI\GDT_HTML;
@@ -9,12 +8,11 @@ use GDO\Date\Time;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
-use GDO\Date\GDT_Age;
+
+/** @var $user \GDO\User\GDO_User **/
 $me = $user;
-$me instanceof GDO_User;
 $module = Module_Profile::instance();
 $card = GDT_Card::make('profile');
-
 
 $avatar = module_enabled('Avatar') ? GDO_Avatar::renderAvatar($user) : '';
 $username = t('card_title_profile', [$user->displayNameLabel()]);
@@ -29,7 +27,7 @@ $content = '';
 
 $fields = array(
 	$me->gdoColumn('user_gender'),
-	$me->gdoColumn('user_country'),
+	$me->gdoColumn('user_country')->withName(false),
 	$me->gdoColumn('user_real_name'),
 );
 
