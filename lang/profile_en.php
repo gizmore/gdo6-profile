@@ -7,7 +7,10 @@ return array(
 'profile_wapp' => 'Whatsapp',
 'profile_website' => 'Website',
 'profile_about' => 'About',
-	
+### Config
+'cfg_profile_visible' => 'Who may see your profile?',
+'cfg_profile_views' => 'Number of profile views',
+'cfg_profile_view' => 'View your own profile',
 ### Sexo
 'sexual_orientation' => 'Sexual Orientation',
 'enum_men' => 'men',
