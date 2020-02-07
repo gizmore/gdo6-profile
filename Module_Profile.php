@@ -15,6 +15,8 @@ final class Module_Profile extends GDO_Module
 {
 	public $module_priority = 100;
 	
+	public function getDependencies() { return ['Friends']; }
+	
 	public function onLoadLanguage() { return $this->loadLanguage('lang/profile'); }
 	
 	public function getClasses()
