@@ -16,5 +16,6 @@ return array(
 'enum_men' => 'men',
 'enum_women' => 'women',
 'enum_both' => 'both',
+###
+	'mdescr_profile_view' => 'Your profile',
 );
-

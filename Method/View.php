@@ -9,6 +9,8 @@ use GDO\DB\GDT_UInt;
 
 final class View extends Method
 {
+	public function isUserRequired() { return true; }
+	
 	public function gdoParameters()
 	{
 		return array(
