@@ -27,7 +27,7 @@ $content = '';
 
 $fields = array(
 	$me->gdoColumn('user_gender'),
-	$me->gdoColumn('user_country')->withName(false),
+	$me->gdoColumn('user_country')->gdo($me->getCountry()),
 	$me->gdoColumn('user_real_name'),
 );
 

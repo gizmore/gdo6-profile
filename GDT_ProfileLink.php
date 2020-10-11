@@ -27,6 +27,13 @@ final class GDT_ProfileLink extends GDT_Link
 		return $this;
 	}
 	
+	public $avatarSize = 32;
+	public function avatarSize($avatarSize)
+	{
+	    $this->avatarSize = $avatarSize;
+	    return $this;
+	}
+	
 	/**
 	 * @return \GDO\User\GDO_User
 	 */
