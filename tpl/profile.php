@@ -19,9 +19,10 @@ $username = t('card_title_profile', [$user->displayNameLabel()]);
 $since = t('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]);
 $title = <<<EOT
 {$avatar}
-<div class="ib">{$username}<br/>{$since}</div>
+<div class="ib">{$username}</div>
 EOT;
 $card->title($title);
+$card->subtitle($since);
 
 $content = '';
 
