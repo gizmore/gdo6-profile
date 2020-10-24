@@ -11,11 +11,12 @@ return array(
 'cfg_profile_visible' => 'Who may see your profile?',
 'cfg_profile_views' => 'Number of profile views',
 'cfg_profile_view' => 'View your own profile',
+'cfg_profile_single_acl' => 'Single ACL Setting for all fields?',
 ### Sexo
 'sexual_orientation' => 'Sexual Orientation',
 'enum_men' => 'men',
 'enum_women' => 'women',
 'enum_both' => 'both',
 ###
-	'mdescr_profile_view' => 'Your profile',
+'mdescr_profile_view' => 'Your profile',
 );

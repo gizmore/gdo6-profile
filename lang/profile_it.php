@@ -11,6 +11,7 @@ return array(
 'cfg_profile_visible' => 'Chi puó vedere il vostro profilo?',
 'cfg_profile_views' => 'Numero visualizazioni del vostro profilo',
 'cfg_profile_view' => 'Visualizzare profilo',
+'cfg_profile_single_acl' => 'Una sola variabile di accesso per tutti i campi?',
 ### Sexo
 'sexual_orientation' => 'Direzionamento sessuale',
 'enum_men' => 'Uomo',

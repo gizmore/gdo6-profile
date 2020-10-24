@@ -11,7 +11,8 @@ return array(
 'cfg_profile_visible' => 'Wer darf Ihr Profil sehen?',
 'cfg_profile_views' => 'Anzahl an Profilaufrufen',
 'cfg_profile_view' => 'Ihr Profil ansehen',
-### Sexo
+'cfg_profile_single_acl' => 'Nur eine Zugriffsvariable für alle Felder?',
+ ### Sexo
 'sexual_orientation' => 'Sexuelle Ausrichtung',
 'enum_men' => 'Männer',
 'enum_women' => 'Frauen',
