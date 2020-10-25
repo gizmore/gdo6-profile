@@ -33,6 +33,11 @@ final class View extends Method
 			return $this->error('err_not_allowed', [$reason]);
 		}
 		
+		if ($profileUser !== GDO_User::current())
+		{
+		    $this->onProfileView($profileUser);
+		}
+		
 		return $this->templatePHP('profile.php', ['user' => $profileUser]);
 	}
 	
