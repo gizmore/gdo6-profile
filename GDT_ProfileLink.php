@@ -1,9 +1,17 @@
 <?php
 namespace GDO\Profile;
+
 use GDO\UI\GDT_Link;
 use GDO\User\GDO_User;
 use GDO\Core\GDT_Template;
 
+/**
+ * A profile link is a link to a user profile.
+ * It can be either an avatar, a displayname or both.
+ * @author gizmore
+ * @version 6.10
+ * @since 6.03
+ */
 final class GDT_ProfileLink extends GDT_Link
 {
 	public $forUser = null;
@@ -20,7 +28,7 @@ final class GDT_ProfileLink extends GDT_Link
 		return $this;
 	}
 	
-	public $withAvatar = true;
+	public $withAvatar = false;
 	public function withAvatar($withAvatar=true)
 	{
 		$this->withAvatar = $withAvatar;
