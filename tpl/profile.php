@@ -3,43 +3,36 @@ use GDO\Profile\Module_Profile;
 use GDO\UI\GDT_Back;
 use GDO\User\GDO_UserSetting;
 use GDO\UI\GDT_Card;
-use GDO\UI\GDT_HTML;
 use GDO\Date\Time;
-use GDO\Avatar\GDO_Avatar;
 use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
+use GDO\Avatar\GDT_Avatar;
+use GDO\UI\GDT_Label;
 
 /** @var $user \GDO\User\GDO_User **/
 $me = $user;
 $module = Module_Profile::instance();
 $card = GDT_Card::make('profile');
 
-$avatar = module_enabled('Avatar') ? GDO_Avatar::renderAvatar($user) : '';
-$username = t('card_title_profile', [$user->displayNameLabel()]);
-$since = t('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]);
-$title = <<<EOT
-{$avatar}
-<div class="ib">{$username}</div>
-EOT;
-$card->title($title);
-$card->subtitle($since);
-
-$content = '';
+$avatar = module_enabled('Avatar') ? GDT_Avatar::make()->user($user) : null;
+$card->avatar($avatar);
+$card->title(GDT_Label::make()->label('card_title_profile', [$user->displayNameLabel()]));
+$card->subtitle(GDT_Label::make()->label('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]));
 
 $fields = array(
+    $me->gdoColumn('user_name'),
+    $me->gdoColumn('user_real_name'),
+    $me->gdoColumn('user_level'),
 	$me->gdoColumn('user_gender'),
-	$me->gdoColumn('user_country')->gdo($me->getCountry()),
-	$me->gdoColumn('user_real_name'),
+    $me->gdoColumn('user_country')->gdo($me->getCountry()),
+    $me->gdoColumn('user_language')->gdo($me->getLanguage()),
 );
 
 foreach ($fields as $gdt)
 {
 	if ($gdt->hasVar())
 	{
-		$content .= '<div class="profile-row">';
-		$content .= sprintf('<label>%s</label>:&nbsp;', $gdt->displayLabel());
-		$content .= sprintf('<span>%s</span>', $gdt->renderCell());
-		$content .= '</div>';
+	    $card->addField($gdt);
 	}
 }
 
@@ -53,14 +46,10 @@ foreach ($module->getUserSettings() as $gdt)
 		}
 		if ($value->hasVar())
 		{
-			$content .= '<div class="profile-row">';
-			$content .= sprintf('<label>%s</label>:&nbsp;', $value->displayLabel());
-			$content .= sprintf('<span>%s</span>', $value->renderCell());
-			$content .= '</div>';
+		    $card->addField($value);
 		}
 	}
 }
-$card->addField(GDT_HTML::withHTML($content));
 
 $card->actions()->addField(GDT_Back::make());
 

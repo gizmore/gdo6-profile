@@ -3,5 +3,5 @@
 }
 .gdo-profile-link span {
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: unset;
 }
