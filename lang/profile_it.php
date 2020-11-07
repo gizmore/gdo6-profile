@@ -19,5 +19,7 @@ return array(
 'enum_both' => 'tutti due',
 ###
 'mdescr_profile_view' => 'Ihr Profil',
+'msg_title_set' => 'All\'utente %s viene ora assegnato il titolo %s.',
+'ft_profile_grantusertitle' => 'Concedi un titolo a un utente',
 );
 

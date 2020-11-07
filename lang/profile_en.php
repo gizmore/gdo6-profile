@@ -19,4 +19,6 @@ return array(
 'enum_both' => 'both',
 ###
 'mdescr_profile_view' => 'Your profile',
+'msg_title_set' => 'The user %s now got their title set to %s.',
+'ft_profile_grantusertitle' => 'Grant a user a title',
 );

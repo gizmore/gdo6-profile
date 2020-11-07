@@ -19,5 +19,7 @@ return array(
 'enum_both' => 'Beide',
 ###
 'mdescr_profile_view' => 'Ihr Profil',
+'msg_title_set' => 'Der Benutzer %s erhält nun den Titel %s.',
+'ft_profile_grantusertitle' => 'Gewähre einem Benutzer einen Titel',
 );
 

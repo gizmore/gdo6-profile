@@ -10,6 +10,8 @@ use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
 use GDO\Core\GDT;
 use GDO\DB\GDT_Checkbox;
+use GDO\UI\GDT_Title;
+use GDO\UI\GDT_Card;
 
 final class Module_Profile extends GDO_Module
 {
@@ -18,6 +20,8 @@ final class Module_Profile extends GDO_Module
 	public function getDependencies() { return ['Friends']; }
 	
 	public function onLoadLanguage() { return $this->loadLanguage('lang/profile'); }
+	
+	public function href_administrate_module() { return href('Profile', 'GrantUserTitle'); }
 	
 	public function getClasses()
 	{
@@ -38,6 +42,7 @@ final class Module_Profile extends GDO_Module
 	{
 		$uid = GDO_User::current()->getID();
 		return array(
+		    GDT_Title::make('user_title'),
 			GDT_Int::make('profile_views')->unsigned()->initial('0'),
 			GDT_Link::make('profile_view')->href(href('Profile', 'View', "&id={$uid}"))->icon('face'),
 		);
@@ -106,6 +111,15 @@ final class Module_Profile extends GDO_Module
 	public function hookAccountChanged(GDO_User $user)
 	{
 		
+	}
+	
+	public function hookProfileCard(GDO_User $user, GDT_Card $card)
+	{
+	    $title = GDO_UserSetting::userGetVar($user, 'user_title');
+	    if ($title)
+	    {
+	        $card->addField(GDT_Title::make('user_title')->var($title));
+	    }
 	}
 		
 }
