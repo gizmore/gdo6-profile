@@ -4,6 +4,7 @@ namespace GDO\Profile;
 use GDO\UI\GDT_Link;
 use GDO\User\GDO_User;
 use GDO\Core\GDT_Template;
+use GDO\UI\WithImageSize;
 
 /**
  * A profile link is a link to a user profile.
@@ -14,6 +15,11 @@ use GDO\Core\GDT_Template;
  */
 final class GDT_ProfileLink extends GDT_Link
 {
+    use WithImageSize;
+    
+    public $imageWidth = 32;
+    public $imageHeight = 32;
+    
 	public $forUser = null;
 	public function forUser(GDO_User $user)
 	{
@@ -34,14 +40,7 @@ final class GDT_ProfileLink extends GDT_Link
 		$this->withAvatar = $withAvatar;
 		return $this;
 	}
-	
-	public $avatarSize = 32;
-	public function avatarSize($avatarSize)
-	{
-	    $this->avatarSize = $avatarSize;
-	    return $this;
-	}
-	
+
 	/**
 	 * @return \GDO\User\GDO_User
 	 */
