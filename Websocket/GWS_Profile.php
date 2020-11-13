@@ -7,7 +7,6 @@ use GDO\Websocket\Server\GWS_Commands;
 use GDO\User\GDO_User;
 use GDO\Profile\GDO_Profile;
 use GDO\Friends\GDT_ACL;
-use GDO\User\GDO_UserSetting;
 use GDO\Core\GDT;
 use GDO\Profile\Method\View;
 use GDO\Friends\GDO_Friendship;
@@ -95,7 +94,7 @@ final class GWS_Profile extends GWS_Command
 	 */
 	private function getSettingGDT(GDO_User $user, array $settings, $i)
 	{
-		return GDO_UserSetting::userGet($user, $settings[$i]->name);
+		return  Module_Profile::instance()->userSetting($user, $settings[$i]->name);
 	}
 	
 }

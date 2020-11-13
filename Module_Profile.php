@@ -5,14 +5,20 @@ use GDO\Core\GDO_Module;
 use GDO\DB\GDT_Int;
 use GDO\UI\GDT_Link;
 use GDO\User\GDO_User;
-use GDO\User\GDO_UserSetting;
-use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
 use GDO\Core\GDT;
 use GDO\DB\GDT_Checkbox;
 use GDO\UI\GDT_Title;
 use GDO\UI\GDT_Card;
 
+/**
+ * Profile module has an API to add settings.
+ * It offers profile view and view statistics.
+ * 
+ * @author gizmore
+ * @version 6.10
+ * @since 6.04
+ */
 final class Module_Profile extends GDO_Module
 {
 	public $module_priority = 100;
@@ -25,9 +31,9 @@ final class Module_Profile extends GDO_Module
 	
 	public function getClasses()
 	{
-		return array(
-			'GDO\Profile\GDO_Profile',
-		);
+		return [
+			GDO_Profile::class,
+		];
 	}
 	
 	public function getConfig()
@@ -48,39 +54,51 @@ final class Module_Profile extends GDO_Module
 		);
 	}
 	
-	/**
-	 * @return GDT[];
-	 */
-	public function extUserSettings()
-	{
-		$this->extUserSettings = [];
-		GDT_Hook::callHook('ProfileSettings');
-		return $this->extUserSettings;
-	}
-	public $extUserSettings;
-	
-	public function extUserSettingsWithACLs()
-	{
-		$settings = [];
-		$ext = $this->extUserSettings();
-		$singleACL = $this->cfgSingleACL();
-		foreach ($ext as $gdt)
-		{
-			$settings[] = $gdt;
-			if (!$singleACL)
-			{
-				$settings[] = GDT_ACL::make("profile_{$gdt->name}_visible")->initial('acl_noone');
-			}
-		}
-		return $settings;
-	}
-	
 	public function getUserSettings()
 	{
-		return array_merge(array(GDT_ACL::make('profile_visible')->initial('acl_all')),
-			$this->extUserSettingsWithACLs());
+	    return [
+	        GDT_ACL::make('profile_visible')->initial('acl_all'),
+	    ];
 	}
 	
+	public function addUserSetting(GDT $gdt, $withACL=false)
+	{
+	    
+	}
+	
+// 	/**
+// 	 * @return GDT[];
+// 	 */
+// 	public function extUserSettings()
+// 	{
+// 		$this->extUserSettings = [];
+// 		GDT_Hook::callHook('ProfileSettings');
+// 		return $this->extUserSettings;
+// 	}
+// 	public $extUserSettings;
+	
+// 	public function extUserSettingsWithACLs()
+// 	{
+// 		$settings = [];
+// 		$ext = $this->extUserSettings();
+// 		$singleACL = $this->cfgSingleACL();
+// 		foreach ($ext as $gdt)
+// 		{
+// 			$settings[] = $gdt;
+// 			if (!$singleACL)
+// 			{
+// 				$settings[] = GDT_ACL::make("profile_{$gdt->name}_visible")->initial('acl_noone');
+// 			}
+// 		}
+// 		return $settings;
+// 	}
+	
+//     public function getUserSettings()
+//     {
+//         return array_merge(array(GDT_ACL::make('profile_visible')->initial('acl_all')),
+//             $this->extUserSettingsWithACLs());
+//     }
+    
 	public function onIncludeScripts()
 	{
 		$this->addCSS('css/profile.css');
@@ -94,14 +112,14 @@ final class Module_Profile extends GDO_Module
 		/**
 		 * @var \GDO\Friends\GDT_ACL $acl
 		 */
-		$acl = GDO_UserSetting::userGet($target, 'profile_visible');
+		$acl = $this->userSetting($target, 'profile_visible');
 		return $acl->hasAccess($user, $target, $reason);
 	}
 	
 	public function canViewSetting(GDO_User $user, GDO_User $target, $settingName)
 	{
 		/** @var \GDO\Friends\GDT_ACL $acl */
-		$acl = GDO_UserSetting::userGet($target, "profile_{$settingName}_visible");
+	    $acl = $this->userSetting($target, 'profile_{$settingName}_visible');
 		return $acl->hasAccess($user, $target);
 	}
 	
@@ -115,7 +133,7 @@ final class Module_Profile extends GDO_Module
 	
 	public function hookProfileCard(GDO_User $user, GDT_Card $card)
 	{
-	    $title = GDO_UserSetting::userGetVar($user, 'user_title');
+	    $title = $this->userSettingVar($user, 'user_title');
 	    if ($title)
 	    {
 	        $card->addField(GDT_Title::make('user_title')->var($title));

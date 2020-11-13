@@ -3,7 +3,6 @@ namespace GDO\Profile\Method;
 
 use GDO\Core\Method;
 use GDO\User\GDO_User;
-use GDO\User\GDO_UserSetting;
 use GDO\Profile\Module_Profile;
 use GDO\DB\GDT_UInt;
 
@@ -52,7 +51,7 @@ final class View extends Method
 		# Increase views
 		if (!$user->tempGet("profileview_$userid"))
 		{
-			GDO_UserSetting::userInc($profileUser, 'profile_views');
+		    Module_Profile::instance()->increaseUserSetting($profileUser, 'profile_views');
 			$user->tempSet("profileview_$userid", 1);
 		}
 	}

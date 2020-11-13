@@ -7,8 +7,8 @@ use GDO\Profile\GDT_User;
 use GDO\UI\GDT_Title;
 use GDO\Form\GDT_AntiCSRF;
 use GDO\Form\GDT_Submit;
-use GDO\User\GDO_UserSetting;
 use GDO\Core\MethodAdmin;
+use GDO\Profile\Module_Profile;
 
 /**
  * Grant a user a title.
@@ -32,7 +32,7 @@ final class GrantUserTitle extends MethodForm
     {
         $user = $form->getFormValue('user');
         $title = $form->getFormVar('title');
-        GDO_UserSetting::userSet($user, 'user_title', $title);
+        Module_Profile::instance()->saveUserSetting($user, 'user_title', $title);
         return $this->message('msg_title_set', [$user->displayNameLabel(), html($title)]);
     }
     

@@ -1,7 +1,6 @@
 <?php
 use GDO\Profile\Module_Profile;
 use GDO\UI\GDT_Back;
-use GDO\User\GDO_UserSetting;
 use GDO\UI\GDT_Card;
 use GDO\Date\Time;
 use GDO\Core\GDT_Hook;
@@ -38,7 +37,7 @@ foreach ($fields as $gdt)
 
 foreach ($module->getUserSettings() as $gdt)
 {
-	if ($value = GDO_UserSetting::userGet($user, $gdt->name))
+	if ($value = Module_Profile::instance()->userSetting($user, $gdt->name))
 	{
 		if ($value instanceof GDT_ACL)
 		{
@@ -55,4 +54,4 @@ $card->actions()->addField(GDT_Back::make());
 
 GDT_Hook::callHook('ProfileCard', $user, $card);
 
-echo $card->render();
+echo $card->gdo($user)->render();
