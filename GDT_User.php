@@ -16,7 +16,7 @@ final class GDT_User extends \GDO\User\GDT_User
 		if ($user = $this->getUser())
 		{
 			return GDT_Link::make($name?$name:$this->name)->
-				rawLabel($user->displayNameLabel())->
+				labelRaw($user->displayNameLabel())->
 				href(href('Profile', 'View', "&id={$user->getID()}"));
 		}
 	}
