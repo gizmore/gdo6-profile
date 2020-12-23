@@ -16,7 +16,7 @@ final class GDT_EyeColor extends GDT_Enum
 		'blue_green',
 	];
 	
-	public function __construct()
+	protected function __construct()
 	{
 		$this->label('eye_color');
 		$this->enumValues(...self::$COLORS);

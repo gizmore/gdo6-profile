@@ -7,7 +7,7 @@ class GDT_SexualOrientation extends GDT_Enum
 {
 	public function defaultLabel() { return $this->label('sexual_orientation'); }
 	
-	public function __construct()
+	protected function __construct()
 	{
 		$this->enumValues('men', 'women', 'both', 'none');
 		$this->emptyLabel('not_specified');
