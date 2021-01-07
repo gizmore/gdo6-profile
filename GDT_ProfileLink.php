@@ -5,6 +5,7 @@ use GDO\UI\GDT_Link;
 use GDO\User\GDO_User;
 use GDO\Core\GDT_Template;
 use GDO\UI\WithImageSize;
+use GDO\Core\GDO;
 
 /**
  * A profile link is a link to a user profile.
@@ -31,7 +32,7 @@ final class GDT_ProfileLink extends GDT_Link
         return $this->forUser;
     }
     
-    public function gdo($gdo)
+    public function gdo(GDO $gdo)
     {
         return parent::gdo($gdo)->forUser($gdo);
     }
