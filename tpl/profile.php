@@ -55,3 +55,5 @@ $card->actions()->addField(GDT_Back::make());
 GDT_Hook::callHook('ProfileCard', $user, $card);
 
 echo $card->gdo($user)->render();
+
+GDT_Hook::callHook('ProfileTemplate', $user);
