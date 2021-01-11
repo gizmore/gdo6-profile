@@ -61,10 +61,10 @@ final class Module_Profile extends GDO_Module
 	    ];
 	}
 	
-	public function addUserSetting(GDT $gdt, $withACL=false)
-	{
+// 	public function addUserSetting(GDT $gdt, $withACL=false)
+// 	{
 	    
-	}
+// 	}
 	
 // 	/**
 // 	 * @return GDT[];
