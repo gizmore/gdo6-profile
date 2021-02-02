@@ -32,7 +32,7 @@ final class GDT_ProfileLink extends GDT_Link
         return $this->forUser;
     }
     
-    public function gdo(GDO $gdo)
+    public function gdo(GDO $gdo=null)
     {
         return parent::gdo($gdo)->forUser($gdo);
     }
