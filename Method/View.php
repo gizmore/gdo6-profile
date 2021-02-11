@@ -5,6 +5,7 @@ use GDO\Core\Method;
 use GDO\User\GDO_User;
 use GDO\Profile\Module_Profile;
 use GDO\DB\GDT_UInt;
+use GDO\User\GDT_Username;
 
 final class View extends Method
 {
@@ -14,6 +15,7 @@ final class View extends Method
 	{
 		return array(
 			GDT_UInt::make('id')->initial(GDO_User::current()->getID()),
+		    GDT_Username::make('user'),
 		);
 	}
 	
@@ -22,9 +24,27 @@ final class View extends Method
 		return $this->templateProfile($this->gdoParameterVar('id'));
 	}
 	
+	public function getTitle()
+	{
+	    return t('card_title_profile', [$this->user->displayNameLabel()]);
+	}
+	
+	public $user;
+	public function init()
+	{
+	    if ($username = $this->gdoParameterVar('user'))
+	    {
+	        $this->user = GDO_User::getByName($username);
+	    }
+	    if ($userid = $this->gdoParameterVar('id'))
+	    {
+	        $this->user = GDO_User::findById($userid);
+	    }
+	}
+	
 	public function templateProfile($userid)
 	{
-		$profileUser = GDO_User::table()->find($userid);
+		$profileUser = $this->user;
 		
 		$reason = '';
 		if (!Module_Profile::instance()->canViewProfile(GDO_User::current(), $profileUser, $reason))
