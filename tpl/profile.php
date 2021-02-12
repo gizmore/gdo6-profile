@@ -29,7 +29,7 @@ $fields = array(
 
 foreach ($fields as $gdt)
 {
-	if ($gdt->hasVar())
+	if ($gdt->getVar() !== null)
 	{
 	    $card->addField($gdt);
 	}

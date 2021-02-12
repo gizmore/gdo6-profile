@@ -25,7 +25,7 @@ final class GrantUserTitle extends MethodForm
         $form->addField(GDT_User::make('user'));
         $form->addField(GDT_Title::make('title'));
         $form->addField(GDT_AntiCSRF::make());
-        $form->addField(GDT_Submit::make());
+        $form->actions()->addField(GDT_Submit::make());
     }
 
     public function formValidated(GDT_Form $form)
