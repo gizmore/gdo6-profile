@@ -7,10 +7,10 @@ use GDO\Websocket\Server\GWS_Commands;
 use GDO\User\GDO_User;
 use GDO\Profile\GDO_Profile;
 use GDO\Friends\GDT_ACL;
-use GDO\Core\GDT;
 use GDO\Profile\Method\View;
 use GDO\Friends\GDO_Friendship;
 use GDO\Profile\Module_Profile;
+use GDO\Core\ModuleLoader;
 
 /**
  * Profile view.
@@ -22,52 +22,39 @@ final class GWS_Profile extends GWS_Command
 	public function execute(GWS_Message $msg)
 	{
 		$me = $msg->user(); # own user
-		$user = GDO_User::getById($msg->read32u()); # target user
+		$user = GDO_User::findById($msg->read32u()); # target user
 
-		$settings = array_values(GDO_Profile::table()->gdoColumnsCache()); # The settings
-		$profile = GDO_Profile::blank(); # The profile GDO/DTO
-		
-		# Iterate over all settings
-		$i = 0;
-
-		# First is overall acl setting
-		$global = $this->getSettingACL($user, $settings, $i++);
+		/** @var $globalACL GDT_ACL **/
+		$globalACL = Module_Profile::instance()->userSetting($user, 'profile_visible');
 		$reason = '';
-		$globalAccess = $global->hasAccess($me, $user, $reason);
-		$profile->setVar($global->name, $global->getVar());
-		
-		$singleACL = Module_Profile::instance()->cfgSingleACL();
-		
-		# Now come pairs (two gdt per setting) of "gdt,gdt_acl"
-		while ($i < count($settings))
-		{
-			if (!$singleACL)
-			{
-				# ACL setting
-				$acl = $this->getSettingACL($user, $settings, $i+1);
-				$profile->setVar($acl->name, $acl->getVar());
-			}
-			
-			# setting value
-			$gdt = $this->getSettingGDT($user, $settings, $i);
-			$var = $gdt->initial;
-			if ($globalAccess)
-			{
-				if  ($singleACL || $acl->hasAccess($me, $user, $reason))
-				{
-					$var = $gdt->var;
-				}
-			}
+		$globalACL->hasAccess($me, $user, $reason);
 
-			$profile->setVar($settings[$i]->name, $var);
-			
-			# Next pair
-			$i += $singleACL ? 1 : 2;
-		}
+	    View::make()->onProfileView($user);
 		
-		if ($globalAccess)
+		$profile = GDO_Profile::blank(); # The profile GDO/DTO
+		$profile->setVar($globalACL->name, $globalACL->getVar());
+		
+		foreach (ModuleLoader::instance()->getEnabledModules() as $module)
 		{
-			View::make()->onProfileView($user);
+		    $settings = $module->getSettingsCache();
+		    foreach ($settings as $gdt)
+		    {
+		        $profile->setVar($gdt->name, null);
+		        $aclName = $gdt->name . '_visible';
+		        if ($module->hasSetting($aclName))
+		        {
+    		        /** @var $fieldACL GDT_ACL **/
+    		        $fieldACL = $module->userSetting($user, $aclName);
+    		        if ($fieldACL->hasAccess($me, $user, $reason, false))
+    		        {
+    		            $profile->setVar($gdt->name, $gdt->var);
+    		        }
+		        }
+		        else
+		        {
+		            $profile->setVar($gdt->name, $gdt->var);
+		        }
+		    }
 		}
 		
 		$payload = $msg->wr32($user->getID());
@@ -76,27 +63,6 @@ final class GWS_Profile extends GWS_Command
 		return $msg->replyBinary($msg->cmd(), $payload);
 	}
 
-	###############
-	### Private ###
-	###############
-	/**
-	 * @param array $settings
-	 * @return GDT_ACL
-	 */
-	private function getSettingACL(GDO_User $user, array $settings, $i)
-	{
-		return $this->getSettingGDT($user, $settings, $i);
-	}
-	
-	/**
-	 * @param array $settings
-	 * @return GDT
-	 */
-	private function getSettingGDT(GDO_User $user, array $settings, $i)
-	{
-		return  Module_Profile::instance()->userSetting($user, $settings[$i]->name);
-	}
-	
 }
 
 # Register command

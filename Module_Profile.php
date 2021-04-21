@@ -10,6 +10,7 @@ use GDO\Core\GDT;
 use GDO\DB\GDT_Checkbox;
 use GDO\UI\GDT_Title;
 use GDO\UI\GDT_Card;
+use GDO\Core\GDT_Hook;
 
 /**
  * Profile module has an API to add settings.
@@ -47,11 +48,11 @@ final class Module_Profile extends GDO_Module
 	public function getUserConfig()
 	{
 		$uid = GDO_User::current()->getID();
-		return array(
+		return [
 		    GDT_Title::make('user_title'),
 			GDT_Int::make('profile_views')->unsigned()->initial('0'),
 			GDT_Link::make('profile_view')->href(href('Profile', 'View', "&id={$uid}"))->icon('face'),
-		);
+		];
 	}
 	
 	public function getUserSettings()
@@ -61,44 +62,6 @@ final class Module_Profile extends GDO_Module
 	    ];
 	}
 	
-// 	public function addUserSetting(GDT $gdt, $withACL=false)
-// 	{
-	    
-// 	}
-	
-// 	/**
-// 	 * @return GDT[];
-// 	 */
-// 	public function extUserSettings()
-// 	{
-// 		$this->extUserSettings = [];
-// 		GDT_Hook::callHook('ProfileSettings');
-// 		return $this->extUserSettings;
-// 	}
-// 	public $extUserSettings;
-	
-// 	public function extUserSettingsWithACLs()
-// 	{
-// 		$settings = [];
-// 		$ext = $this->extUserSettings();
-// 		$singleACL = $this->cfgSingleACL();
-// 		foreach ($ext as $gdt)
-// 		{
-// 			$settings[] = $gdt;
-// 			if (!$singleACL)
-// 			{
-// 				$settings[] = GDT_ACL::make("profile_{$gdt->name}_visible")->initial('acl_noone');
-// 			}
-// 		}
-// 		return $settings;
-// 	}
-	
-//     public function getUserSettings()
-//     {
-//         return array_merge(array(GDT_ACL::make('profile_visible')->initial('acl_all')),
-//             $this->extUserSettingsWithACLs());
-//     }
-    
 	public function onIncludeScripts()
 	{
 		$this->addCSS('css/profile.css');
