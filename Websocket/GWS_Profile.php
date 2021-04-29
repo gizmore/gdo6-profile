@@ -39,6 +39,7 @@ final class GWS_Profile extends GWS_Command
 		    $settings = $module->getSettingsCache();
 		    foreach ($settings as $gdt)
 		    {
+		        $gdt = $module->userSetting($user, $gdt->name);
 		        $profile->setVar($gdt->name, null);
 		        $aclName = $gdt->name . '_visible';
 		        if ($module->hasSetting($aclName))
@@ -47,12 +48,12 @@ final class GWS_Profile extends GWS_Command
     		        $fieldACL = $module->userSetting($user, $aclName);
     		        if ($fieldACL->hasAccess($me, $user, $reason, false))
     		        {
-    		            $profile->setVar($gdt->name, $gdt->var);
+    		            $profile->setVar($gdt->name, $module->userSettingVar($user, $gdt->name));
     		        }
 		        }
 		        else
 		        {
-		            $profile->setVar($gdt->name, $gdt->var);
+		            $profile->setVar($gdt->name, $module->userSettingVar($user, $gdt->name));
 		        }
 		    }
 		}
