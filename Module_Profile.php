@@ -6,19 +6,16 @@ use GDO\DB\GDT_Int;
 use GDO\UI\GDT_Link;
 use GDO\User\GDO_User;
 use GDO\Friends\GDT_ACL;
-use GDO\Core\GDT;
-use GDO\DB\GDT_Checkbox;
 use GDO\UI\GDT_Title;
 use GDO\UI\GDT_Card;
-use GDO\Core\GDT_Hook;
 
 /**
  * Profile module has an API to add settings.
  * It offers profile view and view statistics.
  * 
  * @author gizmore
- * @version 6.10
- * @since 6.04
+ * @version 6.10.1
+ * @since 6.4.0
  */
 final class Module_Profile extends GDO_Module
 {
@@ -37,14 +34,6 @@ final class Module_Profile extends GDO_Module
 		];
 	}
 	
-	public function getConfig()
-	{
-		return array(
-			GDT_Checkbox::make('profile_single_acl')->initial('1'),
-		);
-	}
-	public function cfgSingleACL() { return $this->getConfigValue('profile_single_acl'); }
-	
 	public function getUserConfig()
 	{
 		$uid = GDO_User::current()->getID();
@@ -58,7 +47,8 @@ final class Module_Profile extends GDO_Module
 	public function getUserSettings()
 	{
 	    return [
-	        GDT_ACL::make('profile_visible')->initial('acl_all'),
+	        GDT_ACL::make('profile_visible')->initial(GDT_ACL::ALL),
+	        GDT_ACL::make('real_name_visible')->initial(GDT_ACL::FRIENDS),
 	    ];
 	}
 	
@@ -84,6 +74,14 @@ final class Module_Profile extends GDO_Module
 		/** @var \GDO\Friends\GDT_ACL $acl */
 	    $acl = $this->userSetting($target, 'profile_{$settingName}_visible');
 		return $acl->hasAccess($user, $target);
+	}
+	
+	public function canSeeRealName(GDO_User $user, GDO_User $target)
+	{
+	    /** @var \GDO\Friends\GDT_ACL $acl */
+	    $acl = $this->userSetting($target, 'real_name_visible');
+	    $reason = '';
+	    return $acl->hasAccess($user, $target, $reason, false);
 	}
 	
 	#############

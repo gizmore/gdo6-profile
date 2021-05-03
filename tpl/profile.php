@@ -7,6 +7,7 @@ use GDO\Core\GDT_Hook;
 use GDO\Friends\GDT_ACL;
 use GDO\Avatar\GDT_Avatar;
 use GDO\UI\GDT_Label;
+use GDO\User\GDO_User;
 
 /** @var $user \GDO\User\GDO_User **/
 $me = $user;
@@ -18,14 +19,19 @@ $card->avatar($avatar);
 $card->title(GDT_Label::make()->label('card_title_profile', [$user->displayNameLabel()]));
 $card->subtitle(GDT_Label::make()->label('card_subtitle_profile', [Time::displayAge($user->getRegisterDate())]));
 
-$fields = array(
-    $me->gdoColumn('user_name'),
-    $me->gdoColumn('user_real_name'),
+$fields = [];
+$fields[] = $me->gdoColumn('user_name');
+if (Module_Profile::instance()->canSeeRealName(GDO_User::current(), $me))
+{
+    $fields[] = $me->gdoColumn('user_real_name');
+}
+
+$fields = array_merge($fields, [
     $me->gdoColumn('user_level'),
 	$me->gdoColumn('user_gender'),
     $me->gdoColumn('user_country')->gdo($me->getCountry()),
     $me->gdoColumn('user_language')->gdo($me->getLanguage()),
-);
+]);
 
 foreach ($fields as $gdt)
 {
