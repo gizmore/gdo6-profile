@@ -48,7 +48,7 @@ final class Module_Profile extends GDO_Module
 	{
 	    return [
 	        GDT_ACL::make('profile_visible')->initial(GDT_ACL::ALL),
-	        GDT_ACL::make('real_name_visible')->initial(GDT_ACL::FRIENDS),
+// 	        GDT_ACL::make('real_name_visible')->initial(GDT_ACL::FRIENDS),
 	    ];
 	}
 	
@@ -78,10 +78,11 @@ final class Module_Profile extends GDO_Module
 	
 	public function canSeeRealName(GDO_User $user, GDO_User $target)
 	{
-	    /** @var \GDO\Friends\GDT_ACL $acl */
-	    $acl = $this->userSetting($target, 'real_name_visible');
-	    $reason = '';
-	    return $acl->hasAccess($user, $target, $reason, false);
+	    return true; # Realname in GDO_User is public visible :(
+// 	    /** @var \GDO\Friends\GDT_ACL $acl */
+// 	    $acl = $this->userSetting($target, 'real_name_visible');
+// 	    $reason = '';
+// 	    return $acl->hasAccess($user, $target, $reason, false);
 	}
 	
 	#############
