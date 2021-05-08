@@ -60,7 +60,10 @@ final class GDT_ProfileLink extends GDT_Link
 	public $withAvatar = false;
 	public function withAvatar($withAvatar=true)
 	{
-		$this->withAvatar = $withAvatar;
+	    if (module_enabled('Avatar'))
+	    {
+    		$this->withAvatar = $withAvatar;
+	    }
 		return $this;
 	}
 
