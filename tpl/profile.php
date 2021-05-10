@@ -8,6 +8,7 @@ use GDO\Friends\GDT_ACL;
 use GDO\Avatar\GDT_Avatar;
 use GDO\UI\GDT_Label;
 use GDO\User\GDO_User;
+use GDO\Core\GDT_Response;
 
 /** @var $user \GDO\User\GDO_User **/
 $me = $user;
@@ -62,4 +63,4 @@ GDT_Hook::callHook('ProfileCard', $user, $card);
 
 echo $card->gdo($user)->render();
 
-GDT_Hook::callHook('ProfileTemplate', $user);
+GDT_Response::newWith(GDT_Hook::make()->hook('ProfileTemplate', $user));

@@ -73,6 +73,7 @@ final class View extends Method
 		{
 		    Module_Profile::instance()->increaseUserSetting($profileUser, 'profile_views');
 			$user->tempSet("profileview_$userid", 1);
+			$user->recache();
 		}
 	}
 
