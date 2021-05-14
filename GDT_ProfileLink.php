@@ -12,8 +12,8 @@ use GDO\Core\GDO;
  * It can be either an avatar, a displayname or both.
  * 
  * @author gizmore
- * @version 6.10
- * @since 6.03
+ * @version 6.10.3
+ * @since 6.3.0
  * @see \GDO\Avatar\GDT_Avatar
  * @see GDO_User
  */
@@ -23,7 +23,7 @@ final class GDT_ProfileLink extends GDT_Link
     
     ############
     ### User ###
-    ############^
+    ############
     /**
      * @return \GDO\User\GDO_User
      */
