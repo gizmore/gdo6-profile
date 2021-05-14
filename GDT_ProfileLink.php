@@ -91,6 +91,7 @@ final class GDT_ProfileLink extends GDT_Link
 	public function renderXML()
 	{
 	    return sprintf("<%1\$s>%2\$s</%1\$s>\n",
+	        $this->name,
 	        $this->getUser()->displayNameLabel());
 	}
 	
