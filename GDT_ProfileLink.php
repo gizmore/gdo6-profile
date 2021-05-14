@@ -44,6 +44,14 @@ final class GDT_ProfileLink extends GDT_Link
 		return $this;
 	}
 	
+// 	public function __sleep()
+// 	{
+// 	    $vars = get_object_vars($this);
+// 	    unset($vars['gdo']);
+// 	    unset($vars['forUser']);
+// 	    return array_keys($vars);
+// 	}
+	
 	############
 	### Nick ###
 	############
