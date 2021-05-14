@@ -75,4 +75,9 @@ final class GDT_ProfileLink extends GDT_Link
 		return GDT_Template::php('Profile', 'cell/profile_link.php', ['field'=>$this]);
 	}
 	
+	public function renderJSON()
+	{
+	    return $this->getUser()->displayNameLabel();
+	}
+	
 }
