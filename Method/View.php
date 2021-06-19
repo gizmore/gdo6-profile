@@ -6,6 +6,7 @@ use GDO\User\GDO_User;
 use GDO\Profile\Module_Profile;
 use GDO\DB\GDT_UInt;
 use GDO\User\GDT_Username;
+use GDO\Core\GDT_Response;
 
 final class View extends Method
 {
