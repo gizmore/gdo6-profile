@@ -31,7 +31,7 @@ final class View extends Method
 	}
 	
 	public $user;
-	public function init()
+	public function onInit()
 	{
 	    if ($username = $this->gdoParameterVar('user'))
 	    {
