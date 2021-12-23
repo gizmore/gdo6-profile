@@ -5,7 +5,6 @@ use GDO\User\GDO_User;
 use GDO\Core\GDT_Template;
 use GDO\UI\WithImageSize;
 use GDO\Core\GDO;
-use GDO\DB\Query;
 use GDO\User\GDT_User;
 
 /**
@@ -96,14 +95,6 @@ final class GDT_ProfileLink extends GDT_User
 	    return sprintf("<%1\$s>%2\$s</%1\$s>\n",
 	        $this->name,
 	        $this->getUser()->displayNameLabel());
-	}
-	
-	############
-	### Join ###
-	############
-	public function gdoBeforeRead(Query $query)
-	{
-		$query->joinObject($this->name);
 	}
 	
 }
