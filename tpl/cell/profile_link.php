@@ -10,7 +10,6 @@ $hrefProfile = href('Profile', 'View', "&id={$user->getID()}");
 <?php if ($field->withNickname) : ?>
   <span>
     <?=$user->displayNameLabel()?>
-    
   </span>
 <?php endif; ?>
 </a>

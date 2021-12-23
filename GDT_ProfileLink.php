@@ -34,7 +34,17 @@ final class GDT_ProfileLink extends GDT_Link
     
     public function gdo(GDO $gdo=null)
     {
-        return parent::gdo($gdo)->forUser($gdo);
+    	$me = parent::gdo($gdo);
+    	if ($gdo instanceof GDO_User)
+    	{
+    		$me->forUser($gdo);
+    	}
+    	else
+    	{
+    		$user = GDO_User::getById($this->getVar());
+    		$me->forUser($user);
+    	}
+    	return $me;
     }
     
     public $forUser = null;
