@@ -1,23 +1,24 @@
 <?php
 namespace GDO\Profile;
 
-use GDO\UI\GDT_Link;
 use GDO\User\GDO_User;
 use GDO\Core\GDT_Template;
 use GDO\UI\WithImageSize;
 use GDO\Core\GDO;
+use GDO\DB\Query;
+use GDO\User\GDT_User;
 
 /**
  * A profile link is a link to a user profile.
  * It can be either an avatar, a displayname or both.
  * 
  * @author gizmore
- * @version 6.10.3
+ * @version 6.11.1
  * @since 6.3.0
  * @see \GDO\Avatar\GDT_Avatar
  * @see GDO_User
  */
-final class GDT_ProfileLink extends GDT_Link
+final class GDT_ProfileLink extends GDT_User
 {
     use WithImageSize;
     
@@ -53,14 +54,6 @@ final class GDT_ProfileLink extends GDT_Link
 		$this->forUser = $user;
 		return $this;
 	}
-	
-// 	public function __sleep()
-// 	{
-// 	    $vars = get_object_vars($this);
-// 	    unset($vars['gdo']);
-// 	    unset($vars['forUser']);
-// 	    return array_keys($vars);
-// 	}
 	
 	############
 	### Nick ###
@@ -103,6 +96,14 @@ final class GDT_ProfileLink extends GDT_Link
 	    return sprintf("<%1\$s>%2\$s</%1\$s>\n",
 	        $this->name,
 	        $this->getUser()->displayNameLabel());
+	}
+	
+	############
+	### Join ###
+	############
+	public function gdoBeforeRead(Query $query)
+	{
+		$query->joinObject($this->name);
 	}
 	
 }
