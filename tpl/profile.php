@@ -9,6 +9,7 @@ use GDO\Avatar\GDT_Avatar;
 use GDO\UI\GDT_Label;
 use GDO\User\GDO_User;
 use GDO\Core\GDT_Response;
+use GDO\UI\GDT_Link;
 
 /** @var $user \GDO\User\GDO_User **/
 $me = $user;
@@ -55,6 +56,13 @@ foreach ($module->getUserSettings() as $gdt)
 		    $card->addField($value);
 		}
 	}
+}
+
+if ($me->isStaff())
+{
+	$href = href('Admin', 'EditUser', "&user={$user->getID()}");
+	$link = GDT_Link::make('btn_edit')->href($href)->icon('edit');
+	$card->actions()->addField($link);
 }
 
 $card->actions()->addField(GDT_Back::make());
