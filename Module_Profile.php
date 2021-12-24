@@ -8,6 +8,7 @@ use GDO\User\GDO_User;
 use GDO\Friends\GDT_ACL;
 use GDO\UI\GDT_Title;
 use GDO\UI\GDT_Card;
+use GDO\UI\GDT_IconButton;
 
 /**
  * Profile module has an API to add settings.
@@ -40,7 +41,7 @@ final class Module_Profile extends GDO_Module
 		return [
 		    GDT_Title::make('user_title'),
 			GDT_Int::make('profile_views')->unsigned()->initial('0'),
-			GDT_Link::make('profile_view')->href(href('Profile', 'View', "&id={$uid}"))->icon('face'),
+// 			GDT_IconButton::make('profile_view')->href(href('Profile', 'View', "&id={$uid}"))->icon('face'),
 		];
 	}
 	
